@@ -1,0 +1,1 @@
+sqlpackage /Action:Publish /SourceFile:bin/Debug/DinoDB.dacpac /TargetServerName:"127.0.0.1,1433" /TargetDatabaseName:"dinoDB" /TargetUser:"sa" /TargetPassword:"p@ass5word" /TargetTrustServerCertificate:True /p:CreateNewDatabase=true
