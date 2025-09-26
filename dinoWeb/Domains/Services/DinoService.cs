@@ -7,51 +7,53 @@ namespace Dino.Web.Domain.Services;
 public class DinoService : IDinoRepository
 {
 
-    private static List<Dinosus> _dinos = new List<Dinosus>();
-    private int _nextId = 1;
+    private string _apiUrl = "http://localhost:5192/api/dino/";
 
     public bool Execute(CreateDinoCommand command)
     {
-        _dinos.Add(new Dinosus
-        (
-             _nextId++,
-            command.Espece,
-            command.Poids,
-            command.Taille
-        ));
-        return true;
+        using (HttpClient client = new HttpClient())
+        {
+            var response = client.PostAsJsonAsync(_apiUrl, command).Result;
+            return response.IsSuccessStatusCode;
+        }
     }
 
     public bool Execute(DeleteDinoCommand command)
     {
-        var dino = _dinos.FirstOrDefault(d => d.Id == command.Id);
-        if (dino != null)
+
+        using (HttpClient client = new HttpClient())
         {
-            _dinos.Remove(dino);
-            return true;
+            var response = client.DeleteAsync(_apiUrl + command.Id).Result;
+            Console.WriteLine("command : " + command.Id);
+
+            return response.IsSuccessStatusCode;
         }
-        return false;
     }
 
     public bool Execute(UpdateDinoCommand command)
     {
-        var dino = _dinos.FirstOrDefault(d => d.Id == command.Id);
-        if (dino != null)
+        using (HttpClient client = new HttpClient())
         {
-            dino.Poids = command.Poids;
-            dino.Taille = command.Taille;
-            return true;
+            var response = client.PutAsJsonAsync(_apiUrl, command).Result;
+            return response.IsSuccessStatusCode;
         }
-        return false;
     }
 
     public IEnumerable<Dinosus> Execute(GetAllDinoQuery query)
     {
-        return _dinos;
+        using (HttpClient client = new HttpClient())
+        {
+            IEnumerable<Dinosus>? dinos = client.GetFromJsonAsync<IEnumerable<Dinosus>>(_apiUrl).Result;
+            return dinos ?? Enumerable.Empty<Dinosus>();
+        }
     }
 
     public Dinosus? Execute(GetDinoByIdQuery query)
     {
-        return _dinos.FirstOrDefault(d => d.Id == query.Id);
+        using (HttpClient client = new HttpClient())
+        {
+            Dinosus? dino = client.GetFromJsonAsync<Dinosus>(_apiUrl + query.Id).Result;
+            return dino;
+        }
     }
 }

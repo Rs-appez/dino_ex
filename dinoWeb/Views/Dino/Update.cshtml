@@ -1,0 +1,20 @@
+@model Dino.Web.Domain.Entities.Dinosus
+<h1>Add Dinosaur</h1>
+<form method="post">
+    <div>
+        <label asp-for="Espece">Espece:</label>
+        <input asp-for="Espece" />
+        <span asp-validation-for="Espece"></span>
+    </div>
+    <div>
+        <label asp-for="Taille">Taille (m):</label>
+        <input asp-for="Taille" />
+        <span asp-validation-for="Taille"></span>
+    </div>
+    <div>
+        <label asp-for="Poids">Poids (kg):</label>
+        <input asp-for="Poids" />
+        <span asp-validation-for="Poids"></span>
+    </div>
+    <button type="submit">Add Dinosaur</button>
+</form>

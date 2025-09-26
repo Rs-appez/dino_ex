@@ -4,12 +4,21 @@
     ViewData["Title"] = "Dinooooooooooooooooooo";
     }
 
+    <form asp-action="Create" method="get">
+        <button type="submit">Add Dino</button>
+    </form>
     <h1>@ViewData["Title"]</h1>
     @foreach (var dino in Model)
     {
     <div>
-        <h2>@dino.Espece</h2>
+        <h2>@dino.Espece (@dino.Id)</h2>
         <p>Height: @dino.Taille m</p>
         <p>Weight: @dino.Poids kg</p>
+        <form asp-action="Delete" asp-route-id="@dino.Id" method="post">
+            <button type="submit">Delete</button>
+        </form>
+        <form asp-action="Edit" asp-route-id="@dino.Id" method="get">
+            <button type="submit">Edit</button>
+        </form>
     </div>
     }
