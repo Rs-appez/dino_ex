@@ -10,6 +10,6 @@ public interface IDinoRepository :
                 ICommandHandler<DeleteDinoCommand>,
                 ICommandHandler<UpdateDinoCommand>,
                 IQueryHandler<GetAllDinoQuery, IEnumerable<Dinosus>>,
-                IQueryHandler<GetDinoByIdQuery, Dinosus?>
+                IQueryHandler<GetDinoByIdQuery, Dinosus>
 {
 }
