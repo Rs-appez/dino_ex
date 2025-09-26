@@ -1,0 +1,15 @@
+@model List<Dino.Web.Domain.Entities.Dinosus>
+
+    @{
+    ViewData["Title"] = "Dinooooooooooooooooooo";
+    }
+
+    <h1>@ViewData["Title"]</h1>
+    @foreach (var dino in Model)
+    {
+    <div>
+        <h2>@dino.Espece</h2>
+        <p>Height: @dino.Taille m</p>
+        <p>Weight: @dino.Poids kg</p>
+    </div>
+    }
