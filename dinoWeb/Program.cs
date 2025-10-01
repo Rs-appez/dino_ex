@@ -1,22 +1,12 @@
 using Dino.Web.Domain.Repositories;
 using Dino.Web.Domain.Services;
 
-var MyAllowSpecificOrigins = "_myFrontendOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IDinoRepository, DinoService>();
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-                      policy =>
-                      {
-                          policy.WithOrigins("http://localhost:5112");
-                      });
-});
-
 
 var app = builder.Build();
 
@@ -32,8 +22,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
-app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthorization();
 
