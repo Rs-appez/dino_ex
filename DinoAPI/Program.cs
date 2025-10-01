@@ -4,6 +4,8 @@ using BEntities = Dino.BLL.Entities;
 using DServices = Dino.DAL.Services;
 using BServices = Dino.BLL.Services;
 
+var MyAllowSpecificOrigins = "_myFrontendOrigins";
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -14,6 +16,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IDinoRepository<DEntities.Dino>, DServices.DinoService>();
 builder.Services.AddScoped<IDinoRepository<BEntities.Dino>, BServices.DinoService>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:5112");
+                      });
+});
+
 
 var app = builder.Build();
 
@@ -27,6 +38,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.MapControllers();
 
